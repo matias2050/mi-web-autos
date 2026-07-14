@@ -47,7 +47,7 @@ export default async function Home() {
       
       {/* Barra de contacto superior */}
       <div className="bg-[#111827] text-white text-[11px] font-medium uppercase tracking-widest py-2 px-4 text-center border-b border-gray-800">
-        Concesionaria Oficial • Avellaneda, Buenos Aires
+        Concesionaria Oficial • Temperley, Buenos Aires
       </div>
 
       {/* Header */}
@@ -98,7 +98,7 @@ export default async function Home() {
           <h3 className="text-sm font-black text-[#111827] tracking-widest uppercase mb-1">
             Conocé Nuestro Showroom
           </h3>
-          <p className="text-xs text-gray-400 font-medium">Ubicados en Avellaneda, Buenos Aires</p>
+          <p className="text-xs text-gray-400 font-medium">Ubicados en Temperley, Buenos Aires</p>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
