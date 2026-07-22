@@ -37,19 +37,29 @@ try {
     }
   }
 
-  // 4. Generar contenido TS
-  const cabecera = `export interface Repuesto {\n  id: string;\n  codigo: string;\n  descripcion: string;\n  categoria: string;\n  precio: number;\n  stock: boolean;\n}\n\nexport const VENDEDORES = [\n  { nombre: "Ventas", telefono: "5491100000000" }\n];\n\nexport const REPUESTOS_LISTA: Repuesto[] = `;
-  
-  const datosJson = JSON.stringify(repuestos, null, 2);
-  const contenidoTS = cabecera + datosJson + ';\n';
+  // 4. Guardar como JSON estático en public/repuestos.json
+  const rutaSalida = path.join(process.cwd(), 'public', 'repuestos.json');
+  fs.writeFileSync(rutaSalida, JSON.stringify(repuestos), 'utf-8');
 
-  // 5. Guardar en src/repuestosData.ts
-  const rutaSalida = path.join(process.cwd(), 'src', 'repuestosData.ts');
-  fs.writeFileSync(rutaSalida, contenidoTS, 'utf-8');
+  // 5. Crear repuestosData.ts liviano que exporte los tipos y una función de carga
+  const contenidoTS = `export interface Repuesto {
+  id: string;
+  codigo: string;
+  descripcion: string;
+  categoria: string;
+  precio: number;
+  stock: boolean;
+}
+
+export const VENDEDORES = [
+  { nombre: "Ventas", telefono: "5491100000000" }
+];
+`;
+  const rutaTS = path.join(process.cwd(), 'src', 'repuestosData.ts');
+  fs.writeFileSync(rutaTS, contenidoTS, 'utf-8');
 
   console.log("=============================================");
-  console.log("✅ ¡EXITO! Se cargaron " + repuestos.length + " repuestos.");
-  console.log("📄 Guardado en src/repuestosData.ts");
+  console.log("✅ ¡ÉXITO! Se generó public/repuestos.json con " + repuestos.length + " repuestos.");
   console.log("=============================================\n");
 
 } catch (error) {
