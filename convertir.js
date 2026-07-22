@@ -40,6 +40,7 @@ try {
   }
 
   // 4. Generar el código TS compatible
+  
   const contenidoTS = `export interface Repuesto {
   id: string;
   codigo: string;
