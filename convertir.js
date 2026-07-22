@@ -10,26 +10,28 @@ try {
   const lineas = contenidoCSV.split('\n');
   const repuestos = [];
 
-  // 3. Procesar línea por línea (omitimos el encabezado i = 1)
+  // 3. Procesar línea por línea
   for (let i = 1; i < lineas.length; i++) {
     const linea = lineas[i].trim();
-    if (!linea) continue; // Ignorar líneas vacías
+    if (!linea) continue;
 
-    // Asumiendo separación por comas o punto y coma (ajusta si es necesario)
-    const columnas = linea.split(';'); 
+    // Acepta punto y coma o coma
+    const columnas = linea.includes(';') ? linea.split(';') : linea.split(','); 
 
-    const codigo = columnas[0] ? columnas[0].trim() : '';
-    const descripcion = columnas[1] ? columnas[1].trim() : '';
-    const precioBase = columnas[2] ? parseFloat(columnas[2].replace(',', '.')) : 0;
+    const codigo = columnas[0] ? columnas[0].trim().replace(/"/g, '') : '';
+    const descripcion = columnas[1] ? columnas[1].trim().replace(/"/g, '') : '';
+    
+    // Parsear precio limpiando caracteres raros
+    const precioLimpio = columnas[2] ? columnas[2].replace(/[^\d.,]/g, '').replace(',', '.') : '0';
+    const precioBase = parseFloat(precioLimpio) || 0;
 
     if (codigo || descripcion) {
-      // Aplicar el +30% de recargo
       const precioFinal = Math.round(precioBase * 1.30);
 
       repuestos.push({
-        id: (i).toString(),
-        codigo: codigo,
-        descripcion: descripcion,
+        id: String(i),
+        codigo: codigo || "S/C",
+        descripcion: descripcion || "Sin descripción",
         categoria: "Repuestos GM",
         precio: precioFinal,
         stock: true
@@ -37,7 +39,7 @@ try {
     }
   }
 
-  // 4. Generar el contenido TypeScript para src/repuestosData.ts
+  // 4. Generar el código TS compatible
   const contenidoTS = `export interface Repuesto {
   id: string;
   codigo: string;
@@ -59,8 +61,8 @@ export const REPUESTOS_LISTA: Repuesto[] = ${JSON.stringify(repuestos, null, 2)}
   fs.writeFileSync(rutaSalida, contenidoTS, 'utf-8');
 
   console.log(`=============================================`);
-  console.log(`✅ ¡ÉXITO! Se cargaron ${repuestos.length} repuestos con +30% aplicado.`);
-  console.log(`📄 Guardado directamente en src/repuestosData.ts`);
+  console.log(`✅ ¡ÉXITO! Se cargaron ${repuestos.length} repuestos sin errores de sintaxis.`);
+  console.log(`📄 Guardado en src/repuestosData.ts`);
   console.log(`=============================================\n`);
 
 } catch (error) {
