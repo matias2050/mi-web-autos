@@ -17,7 +17,7 @@ export default function Home() {
   const [busqueda, setBusqueda] = useState('');
   const [cargando, setCargando] = useState(true);
 
-  // Carga ultra rápida del catálogo JSON
+  // Carga rápida del catálogo JSON de repuestos
   useEffect(() => {
     fetch('/repuestos.json')
       .then((res) => res.json())
@@ -42,66 +42,169 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gray-50 text-gray-800">
       
-      {/* 1. NAVEGACIÓN Y CABECERA CON LOGO */}
+      {/* 1. CABECERA CON LOGO Y CONTACTOS */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-50 shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <Image 
               src="/logo.jpg" 
-              alt="Logo Repuestos" 
+              alt="Logo" 
               width={50} 
               height={50} 
               className="rounded-lg object-cover"
             />
             <div>
               <h1 className="text-xl font-bold text-gray-900 leading-tight">
-                Repuestos Chevrolet
+                Venta de Autos y Repuestos
               </h1>
-              <p className="text-xs text-gray-500">Venta de repuestos originales y alternativos</p>
+              <p className="text-xs text-gray-500">Unidades seleccionadas y catálogo Chevrolet</p>
             </div>
           </div>
           
-          <a
-            href="https://wa.me/5491100000000" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="bg-green-500 hover:bg-green-600 text-white text-sm font-bold px-4 py-2 rounded-lg transition shadow-sm flex items-center gap-2"
-          >
-            <span>💬 WhatsApp</span>
-          </a>
+          {/* Botones de WhatsApp de Ventas */}
+          <div className="flex flex-wrap items-center gap-2">
+            <a
+              href="https://wa.me/5491100000000?text=Hola%20Andrea,%20quisiera%20consultar..." 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="bg-green-600 hover:bg-green-700 text-white text-xs font-bold px-3 py-2 rounded-lg transition shadow-sm flex items-center gap-1"
+            >
+              💬 WhatsApp Andrea
+            </a>
+            <a
+              href="https://wa.me/5491100000000?text=Hola%20Matias,%20quisiera%20consultar..." 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="bg-green-600 hover:bg-green-700 text-white text-xs font-bold px-3 py-2 rounded-lg transition shadow-sm flex items-center gap-1"
+            >
+              💬 WhatsApp Matías
+            </a>
+            <a
+              href="https://wa.me/5491100000000?text=Hola%20Federico,%20quisiera%20consultar..." 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="bg-green-600 hover:bg-green-700 text-white text-xs font-bold px-3 py-2 rounded-lg transition shadow-sm flex items-center gap-1"
+            >
+              💬 WhatsApp Federico
+            </a>
+          </div>
         </div>
       </header>
 
-      {/* 2. PORTADA PRINCIPAL CON GALERÍA DE FOTOS DEL LOCAL */}
-      <section className="bg-gradient-to-b from-blue-900 to-blue-950 text-white py-12 px-4 mb-8">
+      {/* 2. PORTADA Y GALERÍA DEL LOCAL */}
+      <section className="bg-gradient-to-b from-blue-900 to-blue-950 text-white py-10 px-4">
         <div className="max-w-6xl mx-auto text-center">
-          <h2 className="text-3xl md:text-5xl font-extrabold mb-4">
-            Encontrá el repuesto que necesitás
+          <h2 className="text-3xl md:text-5xl font-extrabold mb-3">
+            Venta de Autos & Repuestos Chevrolet
           </h2>
-          <p className="text-blue-100 text-base md:text-lg mb-8 max-w-2xl mx-auto">
-            Más de 30.000 artículos en stock inmediato para tu vehículo.
+          <p className="text-blue-100 text-base md:text-lg mb-6 max-w-2xl mx-auto">
+            Atención personalizada, asesoramiento técnico y más de 30.000 repuestos en stock.
           </p>
 
-          {/* Fotos del Local */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto mt-6">
-            <div className="relative h-48 rounded-xl overflow-hidden shadow-lg border-2 border-blue-400/30">
+            <div className="relative h-44 rounded-xl overflow-hidden shadow-lg border-2 border-blue-400/30">
               <Image src="/local-1.jpg" alt="Local 1" fill className="object-cover" />
             </div>
-            <div className="relative h-48 rounded-xl overflow-hidden shadow-lg border-2 border-blue-400/30">
+            <div className="relative h-44 rounded-xl overflow-hidden shadow-lg border-2 border-blue-400/30">
               <Image src="/local-2.jpg" alt="Local 2" fill className="object-cover" />
             </div>
-            <div className="relative h-48 rounded-xl overflow-hidden shadow-lg border-2 border-blue-400/30">
+            <div className="relative h-44 rounded-xl overflow-hidden shadow-lg border-2 border-blue-400/30">
               <Image src="/local-3.jpg" alt="Local 3" fill className="object-cover" />
             </div>
           </div>
         </div>
       </section>
 
-      {/* 3. SECCIÓN DEL CATÁLOGO Y BUSCADOR */}
+      {/* 3. SECCIÓN DE VENTA DE AUTOS */}
+      <section className="max-w-7xl mx-auto px-4 py-12">
+        <div className="border-b border-gray-200 pb-4 mb-8">
+          <h3 className="text-3xl font-extrabold text-gray-900">Vehículos en Venta</h3>
+          <p className="text-gray-600">Unidades destacadas y seleccionadas en excelente estado</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+          {/* Ejemplo de Auto 1 */}
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden flex flex-col justify-between">
+            <div className="relative h-56 bg-gray-100">
+              <Image src="/local-1.jpg" alt="Auto en venta" fill className="object-cover" />
+            </div>
+            <div className="p-6">
+              <span className="bg-blue-100 text-blue-800 text-xs px-2.5 py-1 rounded-full font-bold">Usado Seleccionado</span>
+              <h4 className="text-xl font-bold text-gray-900 mt-2">Chevrolet Corsa Classic 1.4</h4>
+              <p className="text-sm text-gray-500 mt-1">Año 2013 • Excelente estado general • Listo para transferir.</p>
+              <div className="mt-4 flex items-center justify-between">
+                <span className="text-2xl font-black text-gray-900">Consultar Precio</span>
+              </div>
+            </div>
+            <div className="p-6 pt-0">
+              <a
+                href="https://wa.me/5491100000000?text=Hola,%20quisiera%20consultar%20por%20el%20Chevrolet%20Corsa"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-xl transition block text-center"
+              >
+                Consultar por este Auto
+              </a>
+            </div>
+          </div>
+
+          {/* Ejemplo de Auto 2 */}
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden flex flex-col justify-between">
+            <div className="relative h-56 bg-gray-100">
+              <Image src="/local-2.jpg" alt="Auto en venta" fill className="object-cover" />
+            </div>
+            <div className="p-6">
+              <span className="bg-blue-100 text-blue-800 text-xs px-2.5 py-1 rounded-full font-bold">Oportunidad</span>
+              <h4 className="text-xl font-bold text-gray-900 mt-2">Chevrolet Onix LTZ 1.4</h4>
+              <p className="text-sm text-gray-500 mt-1">Año 2017 • Full full • VTV al día y documentación en regla.</p>
+              <div className="mt-4 flex items-center justify-between">
+                <span className="text-2xl font-black text-gray-900">Consultar Precio</span>
+              </div>
+            </div>
+            <div className="p-6 pt-0">
+              <a
+                href="https://wa.me/5491100000000?text=Hola,%20quisiera%20consultar%20por%20el%20Chevrolet%20Onix"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-xl transition block text-center"
+              >
+                Consultar por este Auto
+              </a>
+            </div>
+          </div>
+
+          {/* Ejemplo de Auto 3 */}
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden flex flex-col justify-between">
+            <div className="relative h-56 bg-gray-100">
+              <Image src="/local-3.jpg" alt="Auto en venta" fill className="object-cover" />
+            </div>
+            <div className="p-6">
+              <span className="bg-blue-100 text-blue-800 text-xs px-2.5 py-1 rounded-full font-bold">Imperdible</span>
+              <h4 className="text-xl font-bold text-gray-900 mt-2">Chevrolet Tracker LTZ</h4>
+              <p className="text-sm text-gray-500 mt-1">Año 2018 • Caja Manual • Service oficial realizado.</p>
+              <div className="mt-4 flex items-center justify-between">
+                <span className="text-2xl font-black text-gray-900">Consultar Precio</span>
+              </div>
+            </div>
+            <div className="p-6 pt-0">
+              <a
+                href="https://wa.me/5491100000000?text=Hola,%20quisiera%20consultar%20por%20la%20Chevrolet%20Tracker"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 rounded-xl transition block text-center"
+              >
+                Consultar por este Auto
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 4. SECCIÓN DEL CATÁLOGO DE REPUESTOS */}
       <section className="max-w-7xl mx-auto px-4 pb-16">
         <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-200 mb-8">
-          <h3 className="text-2xl font-bold text-gray-900 mb-2">Buscador de Repuestos</h3>
-          <p className="text-sm text-gray-500 mb-6">Ingresá el código o nombre del repuesto:</p>
+          <h3 className="text-2xl font-bold text-gray-900 mb-2">Catálogo de Repuestos</h3>
+          <p className="text-sm text-gray-500 mb-6">Buscá por código o descripción en nuestros 32.000 artículos en stock:</p>
           
           <input
             type="text"
@@ -115,18 +218,17 @@ export default function Home() {
         {cargando ? (
           <div className="text-center py-16 bg-white rounded-2xl border">
             <p className="text-xl text-gray-600 font-semibold animate-pulse">
-              ⏳ Cargando catálogo completo...
+              ⏳ Cargando catálogo completo de repuestos...
             </p>
           </div>
         ) : (
           <>
             <div className="flex justify-between items-center mb-6">
               <p className="text-sm text-gray-600 font-medium">
-                Se encontraron <span className="font-bold text-gray-900">{repuestosFiltrados.length}</span> productos
+                Se encontraron <span className="font-bold text-gray-900">{repuestosFiltrados.length}</span> repuestos
               </p>
             </div>
 
-            {/* Grilla de productos */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {repuestosFiltrados.slice(0, 60).map((item) => {
                 const mensajeWa = encodeURIComponent(
@@ -178,10 +280,10 @@ export default function Home() {
         )}
       </section>
 
-      {/* 4. PIE DE PÁGINA */}
+      {/* 5. PIE DE PÁGINA */}
       <footer className="bg-gray-900 text-gray-400 py-8 border-t border-gray-800">
         <div className="max-w-7xl mx-auto px-4 text-center text-sm">
-          <p>© Repuestos Chevrolet - Todos los derechos reservados.</p>
+          <p>© Venta de Autos y Repuestos Chevrolet - Todos los derechos reservados.</p>
         </div>
       </footer>
 
