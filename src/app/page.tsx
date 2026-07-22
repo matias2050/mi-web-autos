@@ -1,5 +1,6 @@
 // @ts-nocheck
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface Vehiculo {
   id: string;
@@ -39,15 +40,42 @@ async function getVehiculos(): Promise<Vehiculo[]> {
 
 export default async function Home() {
   const vehiculos = await getVehiculos();
+  
+  // Datos de los 3 contactos (reemplazar números por los reales)
+  const contactos = [
+    { nombre: "Matias", telefono: "5491130343177" },
+    { nombre: "Andrea", telefono: "5491130343177" },
+    { nombre: "Federico", telefono: "5491130343177" },
+  ];
+
   const numeroWhatsApp = "5491130343177"; 
   const enlaceWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent("Hola! Vi un vehículo en su web y me interesaría recibir más información.")}`;
 
   return (
     <div className="bg-[#f9fafb] min-h-screen text-[#111827] font-sans antialiased">
       
-      {/* Barra de contacto superior */}
-      <div className="bg-[#111827] text-white text-[11px] font-medium uppercase tracking-widest py-2 px-4 text-center border-b border-gray-800">
-        Concesionaria Oficial • Temperley, Buenos Aires
+      {/* Barra de contacto superior con los 3 vendedores */}
+      <div className="bg-[#111827] text-white text-[11px] font-medium py-2 px-4 border-b border-gray-800">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+          <span className="uppercase tracking-widest text-gray-400">
+            Concesionaria Oficial • Temperley, Buenos Aires
+          </span>
+          <div className="flex items-center gap-4 text-[12px]">
+            <span className="text-gray-400 font-semibold uppercase tracking-wider">Atención Directa:</span>
+            {contactos.map((c) => (
+              <a
+                key={c.nombre}
+                href={`https://wa.me/${c.telefono}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-green-400 transition-colors flex items-center gap-1 font-bold"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                {c.nombre}
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Header */}
@@ -56,17 +84,24 @@ export default async function Home() {
           
           {/* Logo de Automotores Guarida */}
           <div className="flex items-center gap-3">
-            <div className="relative h-14 w-48 flex items-center">
+            <Link href="/" className="relative h-14 w-48 flex items-center">
               <img 
                 src="/logo.jpg" 
                 alt="Automotores Guarida"
                 className="object-contain max-h-full max-w-full"
               />
-            </div>
+            </Link>
           </div>
 
-          {/* Botón WhatsApp */}
-          <div>
+          {/* Menú y Botones del Header */}
+          <div className="flex items-center gap-3">
+            <Link
+              href="/repuestos"
+              className="bg-red-600 hover:bg-red-700 text-white font-bold text-xs uppercase tracking-wider px-5 py-3 rounded-md transition-all duration-200 inline-flex items-center gap-2 shadow-sm"
+            >
+              Repuestos GM
+            </Link>
+
             <a 
               href={enlaceWhatsApp}
               target="_blank"
@@ -102,7 +137,7 @@ export default async function Home() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Foto Principal: Fachada limpia (PNG) */}
+          {/* Foto Principal */}
           <div className="relative bg-gray-100 aspect-[16/9] md:col-span-2 rounded-lg overflow-hidden border border-gray-100 shadow-sm">
             <img 
               src="/local-1.png" 
@@ -111,7 +146,7 @@ export default async function Home() {
             />
           </div>
           <div className="grid grid-cols-2 md:grid-cols-1 gap-4">
-            {/* Foto 2: Perspectiva (JPG) */}
+            {/* Foto 2 */}
             <div className="relative bg-gray-100 aspect-[16/9] rounded-lg overflow-hidden border border-gray-100 shadow-sm">
               <img 
                 src="/local-2.jpg" 
@@ -119,7 +154,7 @@ export default async function Home() {
                 className="object-cover w-full h-full"
               />
             </div>
-            {/* Foto 3: Detalle Interior (JPG) */}
+            {/* Foto 3 */}
             <div className="relative bg-gray-100 aspect-[16/9] rounded-lg overflow-hidden border border-gray-100 shadow-sm">
               <img 
                 src="/local-3.jpg" 
