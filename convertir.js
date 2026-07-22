@@ -1,73 +1,67 @@
 const fs = require('fs');
 const path = require('path');
 
-const ARCHIVO_CSV = 'stock.csv';
-
 try {
-  const rutaArchivo = path.join(__dirname, ARCHIVO_CSV);
-  if (!fs.existsSync(rutaArchivo)) {
-    console.error(`❌ No se encontró el archivo: ${ARCHIVO_CSV}`);
-    process.exit(1);
-  }
+  // 1. Leer el archivo CSV
+  const rutaCSV = path.join(process.cwd(), 'stock.csv');
+  const contenidoCSV = fs.readFileSync(rutaCSV, 'utf-8');
 
-  // Leer el archivo en codificación latin1/utf8 para acentos
-  const contenido = fs.readFileSync(rutaArchivo, 'latin1');
-  const lineas = contenido.split(/\r?\n/);
-
-  console.log(`\nProcesando ${lineas.length} líneas de stock.csv...`);
-
+  // 2. Separar por líneas
+  const lineas = contenidoCSV.split('\n');
   const repuestos = [];
-  let idCount = 1;
 
-  for (let i = 0; i < lineas.length; i++) {
+  // 3. Procesar línea por línea (omitimos el encabezado i = 1)
+  for (let i = 1; i < lineas.length; i++) {
     const linea = lineas[i].trim();
-    if (!linea) continue;
+    if (!linea) continue; // Ignorar líneas vacías
 
-    // Separar por punto y coma (;)
-    const columnas = linea.split(';');
-    if (columnas.length < 3) continue;
+    // Asumiendo separación por comas o punto y coma (ajusta si es necesario)
+    const columnas = linea.split(';'); 
 
-    // Columna 1: Código
-    const codigo = (columnas[1] || '').trim();
-    
-    // Columna 2: Descripción
-    const descripcion = (columnas[2] || '').trim();
+    const codigo = columnas[0] ? columnas[0].trim() : '';
+    const descripcion = columnas[1] ? columnas[1].trim() : '';
+    const precioBase = columnas[2] ? parseFloat(columnas[2].replace(',', '.')) : 0;
 
-    // La última columna suele tener el precio (ej: "289,55")
-    let costo = 0;
-    for (let c = columnas.length - 1; c >= 3; c--) {
-      const valStr = (columnas[c] || '').trim().replace(/\./g, '').replace(',', '.');
-      const parsed = parseFloat(valStr);
-      if (!isNaN(parsed) && parsed > 0) {
-        costo = parsed;
-        break;
-      }
+    if (codigo || descripcion) {
+      // Aplicar el +30% de recargo
+      const precioFinal = Math.round(precioBase * 1.30);
+
+      repuestos.push({
+        id: (i).toString(),
+        codigo: codigo,
+        descripcion: descripcion,
+        categoria: "Repuestos GM",
+        precio: precioFinal,
+        stock: true
+      });
     }
-
-    // Validar que tengamos código o descripción y costo
-    if ((!codigo && !descripcion) || costo <= 0) continue;
-    if (codigo.toLowerCase().includes('articulo') || codigo.toLowerCase().includes('codigo')) continue;
-
-    // Sumar +30% al costo
-    const precioFinal = Math.round(costo * 1.30);
-
-    repuestos.push({
-      id: String(idCount++),
-      codigo: codigo || `REP-${idCount}`,
-      descripcion: descripcion || codigo,
-      categoria: "Repuestos GM",
-      precio: precioFinal,
-      stock: true
-    });
   }
 
-  const rutaSalida = path.join(process.cwd(), 'public', 'repuestos.json');
-  fs.writeFileSync(rutaSalida, JSON.stringify(repuestos, null, 2), 'utf-8');
+  // 4. Generar el contenido TypeScript para src/repuestosData.ts
+  const contenidoTS = `export interface Repuesto {
+  id: string;
+  codigo: string;
+  descripcion: string;
+  categoria: string;
+  precio: number;
+  stock: boolean;
+}
 
-  console.log(`==============================================`);
+export const VENDEDORES = [
+  { nombre: "Ventas", telefono: "5491100000000" }
+];
+
+export const REPUESTOS_LISTA: Repuesto[] = ${JSON.stringify(repuestos, null, 2)};
+`;
+
+  // 5. Guardar directamente en src/repuestosData.ts
+  const rutaSalida = path.join(process.cwd(), 'src', 'repuestosData.ts');
+  fs.writeFileSync(rutaSalida, contenidoTS, 'utf-8');
+
+  console.log(`=============================================`);
   console.log(`✅ ¡ÉXITO! Se cargaron ${repuestos.length} repuestos con +30% aplicado.`);
-  console.log(`📄 Guardado en public/repuestos.json`);
-  console.log(`==============================================\n`);
+  console.log(`📄 Guardado directamente en src/repuestosData.ts`);
+  console.log(`=============================================\n`);
 
 } catch (error) {
   console.error("❌ Error al procesar:", error.message);
