@@ -41,11 +41,10 @@ async function getVehiculos(): Promise<Vehiculo[]> {
 export default async function Home() {
   const vehiculos = await getVehiculos();
   
-  // Datos de los 3 contactos (reemplazar números por los reales)
   const contactos = [
     { nombre: "Matias", telefono: "5491130343177" },
-    { nombre: "Andrea", telefono: "5491130343177" },
-    { nombre: "Federico", telefono: "5491130343177" },
+    { nombre: "Andrea", telefono: "5491144756901" },
+    { nombre: "Federico", telefono: "5491137622258" },
   ];
 
   const numeroWhatsApp = "5491130343177"; 
@@ -82,7 +81,7 @@ export default async function Home() {
       <header className="bg-white sticky top-0 z-50 border-b border-gray-100 backdrop-blur-md bg-white/90">
         <div className="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
           
-          {/* Logo de Automotores Guarida */}
+          {/* Logo */}
           <div className="flex items-center gap-3">
             <Link href="/" className="relative h-14 w-48 flex items-center">
               <img 
@@ -93,7 +92,7 @@ export default async function Home() {
             </Link>
           </div>
 
-          {/* Menú y Botones del Header */}
+          {/* Menú y Botones */}
           <div className="flex items-center gap-3">
             <Link
               href="/repuestos"
@@ -127,7 +126,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Sección del Showroom */}
+      {/* Sección Showroom */}
       <section className="max-w-7xl mx-auto px-6 pt-16">
         <div className="mb-8">
           <h3 className="text-sm font-black text-[#111827] tracking-widest uppercase mb-1">
@@ -137,7 +136,6 @@ export default async function Home() {
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Foto Principal */}
           <div className="relative bg-gray-100 aspect-[16/9] md:col-span-2 rounded-lg overflow-hidden border border-gray-100 shadow-sm">
             <img 
               src="/local-1.png" 
@@ -146,7 +144,6 @@ export default async function Home() {
             />
           </div>
           <div className="grid grid-cols-2 md:grid-cols-1 gap-4">
-            {/* Foto 2 */}
             <div className="relative bg-gray-100 aspect-[16/9] rounded-lg overflow-hidden border border-gray-100 shadow-sm">
               <img 
                 src="/local-2.jpg" 
@@ -154,7 +151,6 @@ export default async function Home() {
                 className="object-cover w-full h-full"
               />
             </div>
-            {/* Foto 3 */}
             <div className="relative bg-gray-100 aspect-[16/9] rounded-lg overflow-hidden border border-gray-100 shadow-sm">
               <img 
                 src="/local-3.jpg" 
