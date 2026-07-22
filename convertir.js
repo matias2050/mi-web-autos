@@ -61,7 +61,7 @@ try {
     });
   }
 
-  const rutaSalida = path.join(__dirname, 'public', 'repuestos.json');
+  const rutaSalida = path.join(process.cwd(), 'public', 'repuestos.json');
   fs.writeFileSync(rutaSalida, JSON.stringify(repuestos, null, 2), 'utf-8');
 
   console.log(`==============================================`);
