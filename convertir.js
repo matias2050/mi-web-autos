@@ -15,13 +15,11 @@ try {
     const linea = lineas[i].trim();
     if (!linea) continue;
 
-    // Acepta punto y coma o coma
     const columnas = linea.includes(';') ? linea.split(';') : linea.split(','); 
 
     const codigo = columnas[0] ? columnas[0].trim().replace(/"/g, '') : '';
     const descripcion = columnas[1] ? columnas[1].trim().replace(/"/g, '') : '';
     
-    // Parsear precio limpiando caracteres raros
     const precioLimpio = columnas[2] ? columnas[2].replace(/[^\d.,]/g, '').replace(',', '.') : '0';
     const precioBase = parseFloat(precioLimpio) || 0;
 
@@ -39,8 +37,7 @@ try {
     }
   }
 
-  // 4. Generar el código TS compatible
-  
+  // 4. Generar el código TypeScript (TODO dentro de las comillas backticks)
   const contenidoTS = `export interface Repuesto {
   id: string;
   codigo: string;
@@ -57,13 +54,13 @@ export const VENDEDORES = [
 export const REPUESTOS_LISTA: Repuesto[] = ${JSON.stringify(repuestos, null, 2)};
 `;
 
-  // 5. Guardar directamente en src/repuestosData.ts
+  // 5. Guardar en src/repuestosData.ts
   const rutaSalida = path.join(process.cwd(), 'src', 'repuestosData.ts');
   fs.writeFileSync(rutaSalida, contenidoTS, 'utf-8');
 
   console.log(`=============================================`);
-  console.log(`✅ ¡ÉXITO! Se cargaron ${repuestos.length} repuestos sin errores de sintaxis.`);
-  console.log(`📄 Guardado en src/repuestosData.ts`);
+  console.log(`✅ ¡ÉXITO! Se cargaron ${repuestos.length} repuestos.`);
+  console.log(`📄 Guardado correctamente en src/repuestosData.ts`);
   console.log(`=============================================\n`);
 
 } catch (error) {
